@@ -1,7 +1,10 @@
 package com.services;
 
 import com.controllers.PosterController;
+import com.dtos.MovieDto;
 import com.dtos.PosterDto;
+
+import java.util.List;
 
 public interface PosterService {
 
@@ -20,4 +23,24 @@ public interface PosterService {
      */
     PosterDto savePoster(PosterDto posterDto);
 
+    /**
+     * Récupère tous les posters du système
+     * @return la liste des posters
+     */
+    List<PosterDto> getAllPosters();
+
+    /**
+     * Modifie un poster du système
+     * @param posterId l'identifiant du poster à supprimer
+     * @param posterDto les données du poster à modifier
+     * @return true si la modification a réussi
+     */
+    PosterDto updatePoster(Long posterId, PosterDto posterDto);
+
+    /**
+     * Supprime un poster du système
+     * @param posterId l'identifiant du poster à supprimer
+     * @return true si la suppression a réussi
+     */
+    boolean deletePoster(Long posterId);
 }

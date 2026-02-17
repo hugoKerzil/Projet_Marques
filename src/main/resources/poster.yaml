@@ -5,28 +5,20 @@ info:
   version: 1.0.0
 
 paths:
-  /movies/{movieId}/posters:
+  /posters:
     get:
-      summary: List all posters for a specific movie
-      parameters:
-        - name: movieId
-          in: path
-          required: true
-          schema:
-            type: integer
+      summary: Liste tous les posters
       responses:
         '200':
-          description: A list of posters
+          description: Une liste de tous les posters
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Poster'
-
-  /posters:
     post:
-      summary: Add a new poster
+      summary: Ajoute un nouveau poster
       requestBody:
         required: true
         content:
@@ -35,9 +27,70 @@ paths:
               $ref: '#/components/schemas/Poster'
       responses:
         '201':
-          description: Poster created
-        '400':
-          description: Invalid request
+          description: Poster créé avec succès
+
+  /posters/{id}:
+    get:
+      summary: Récupère un poster par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Poster'
+    put:
+      summary: Met à jour un poster
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Poster'
+      responses:
+        '200':
+          description: Poster mis à jour
+    delete:
+      summary: Supprime un poster
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Poster supprimé
+
+  /movies/{movieId}/posters:
+    get:
+      summary: Liste tous les posters d'un film spécifique
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste des posters du film
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Poster'
 
 components:
   schemas:
@@ -49,12 +102,9 @@ components:
       properties:
         id:
           type: integer
-          description: Unique ID of the poster.
         movieId:
           type: integer
-          description: The ID of the movie this poster belongs to.
         url:
           type: string
-          description: The file path or URL of the poster image.
         description:
           type: string

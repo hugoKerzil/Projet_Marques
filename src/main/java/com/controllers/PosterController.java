@@ -6,6 +6,8 @@ import com.services.impl.MovieServiceImpl;
 import com.services.impl.PosterServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/posters")
 public class PosterController {
@@ -13,6 +15,13 @@ public class PosterController {
     private final PosterServiceImpl posterService;
 
     public PosterController(PosterServiceImpl posterService) { this.posterService = posterService; }
+
+    /**
+     * <p>Get all posters in the system</p>
+     * @return List<PosterDto>
+     */
+    @GetMapping
+    public List<PosterDto> getPosters() { return posterService.getAllPosters(); }
 
     /**
      * Method to get the Poster based on the ID
@@ -25,5 +34,17 @@ public class PosterController {
      */
     @PostMapping
     public PosterDto savePoster(final @RequestBody PosterDto posterDto) { return posterService.savePoster(posterDto); }
+
+    /**
+     * Update a Poster by it's id
+     */
+    @PutMapping("/{id}")
+    public PosterDto updatePoster(@PathVariable Long id, @RequestBody PosterDto posterDto) { return posterService.updatePoster(id, posterDto); }
+
+    /**
+     * Delete a Movie by it's id
+     */
+    @DeleteMapping("/{id}")
+    public Boolean deletePoster(@PathVariable Long id) { return posterService.deletePoster(id); }
 
 }

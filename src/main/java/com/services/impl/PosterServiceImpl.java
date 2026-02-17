@@ -8,6 +8,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Implémentation des opérations métier pour la gestion des posters.
  * Cette classe suit le principe de Single Responsibility (SOLID).
@@ -33,6 +35,16 @@ public class PosterServiceImpl implements PosterService {
 
     /**
      * {@inheritDoc}
+     * Utilisation de l'API Stream pour une transformation fonctionnelle des données
+     */
+    public List<PosterDto> getAllPosters() {
+        return posterRepository.findAll().stream()
+                .map(posterMapper::toDto)
+                .toList();
+    }
+
+    /**
+     * {@inheritDoc}
      * Utilisation de la méthode orElseThrow pour une gestion élégante des cas d'erreur
      */
     public PosterDto getPosterById(Long posterId) {
@@ -51,4 +63,21 @@ public class PosterServiceImpl implements PosterService {
         var savedPoster = posterRepository.save(poster);
         return posterMapper.toDto(savedPoster);
     }
+
+    public PosterDto updatePoster(Long posterId, PosterDto posterDto) {
+        if (!posterRepository.existsById(posterId)) throw new EntityNotFoundException("Inexistant");
+        var poster = posterMapper.toEntity(posterDto);
+        poster.setId(posterId); // On force l'ID pour faire un update et non un insert
+        return posterMapper.toDto(posterRepository.save(poster));
+    }
+
+    /**
+     * {@inheritDoc}
+     * La méthode deleteById ne lève pas d'exception si l'entité n'existe pas
+     */
+    public boolean deletePoster(Long posterId) {
+        posterRepository.deleteById(posterId);
+        return true;
+    }
+
 }
