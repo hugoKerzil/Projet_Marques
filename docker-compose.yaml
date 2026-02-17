@@ -1,10 +1,10 @@
 ﻿services:
-  mariadb:
-    image: mariadb:latest
+  db:
+    image: mysql:8.0
+    container_name: vodd_db_test
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: monMotDePasseSuperSecret
-      MYSQL_DATABASE: test
-    volumes:
-      - ./data:/var/lib/mysql
+      MYSQL_DATABASE: vodd_db
+      MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
