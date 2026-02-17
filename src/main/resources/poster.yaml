@@ -1,0 +1,60 @@
+openapi: 3.1.0
+info:
+  title: poster-api
+  description: API for managing movie posters.
+  version: 1.0.0
+
+paths:
+  /movies/{movieId}/posters:
+    get:
+      summary: List all posters for a specific movie
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of posters
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Poster'
+
+  /posters:
+    post:
+      summary: Add a new poster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Poster'
+      responses:
+        '201':
+          description: Poster created
+        '400':
+          description: Invalid request
+
+components:
+  schemas:
+    Poster:
+      type: object
+      required:
+        - movieId
+        - url
+      properties:
+        id:
+          type: integer
+          description: Unique ID of the poster.
+        movieId:
+          type: integer
+          description: The ID of the movie this poster belongs to.
+        url:
+          type: string
+          description: The file path or URL of the poster image.
+        description:
+          type: string
