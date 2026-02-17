@@ -115,7 +115,7 @@ components:
           type: string
           format: date
           description: La date de réalisation du film.
-        réalisateur:
+        realisateur:
           type: string
           description: Nom du réalisateur.
         acteurs:
