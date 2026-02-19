@@ -8,3 +8,98 @@
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
+
+#services:
+  # authentication api (servlet simple)
+  #authentication-api:
+    #image: gitlab-depinfo.univ-brest.fr:5050/e22206673/apis/authentication-api:latest
+    # la version docker de l'image se connecte a la base `authdb:3306/authapidb` avec l'utilisateur `root` et le mot de passe `1234secure`
+    #ports:
+      #- "11040:8080" # remplacer 10001 par un port affecte a votre groupe
+    #depends_on:
+      #- authdb
+  #authdb:
+    # initialisation de la base : `mysql -h 127.0.0.1 -u root -p authapidb < init.sql`
+    #image: mariadb:11.6.2-ubi9
+    #restart: unless-stopped
+    #ports:
+      #- "3306:3306"
+    #volumes:
+      #- "/etc/localtime:/etc/localtime:ro"
+      #- "/etc/timezone:/etc/timezone:ro"
+      # chmod 777
+      #- "./data_auth:/var/lib/mysql"
+    #environment:
+      #MARIADB_ROOT_PASSWORD: 1234secure
+      #MARIADB_DATABASE: authapidb
+
+  # movie-api (appli springboot)
+  #movie-api:
+    #image: gitlab-depinfo.univ-brest.fr:5050/e22206673/apis:latest
+    #ports:
+      #- "11042:8080" # remplacer 10002 par un port affecte a votre groupe
+    #environment:
+      #spring.datasource.url: jdbc:mysql://moviedb:3306/students
+      #spring.datasource.username: root
+      #spring.datasource.password: 1234secure
+      #spring.jpa.database: MYSQL
+      #spring.jpa.hibernate.ddl-auto: update
+    #depends_on:
+      #- moviedb
+  #moviedb:
+    #image: mariadb:11.6.2-ubi9
+    #restart: unless-stopped
+    #ports:
+      #- "3306:3306"
+    #volumes:
+      #- "/etc/localtime:/etc/localtime:ro"
+      #- "/etc/timezone:/etc/timezone:ro"
+      # chmod 777
+      #- "./data_stud:/var/lib/mysql"
+    #environment:
+      #MARIADB_ROOT_PASSWORD: 1234secure
+      #MARIADB_DATABASE: students
+
+  # payment-api (appli springboot)
+  #payment-api:
+    #image: gitlab-depinfo.univ-brest.fr:5050/e22206673/apis:latest
+    #ports:
+      #- "11044:8080" # remplacer 10002 par un port affecte a votre groupe
+    #environment:
+      #spring.datasource.url: jdbc:mysql://paymentdb:3306/students
+      #spring.datasource.username: root
+      #spring.datasource.password: 1234secure
+      #spring.jpa.database: MYSQL
+      #spring.jpa.hibernate.ddl-auto: update
+    #depends_on:
+      #- paymentdb
+  #paymentdb:
+    #image: mariadb:11.6.2-ubi9
+    #restart: unless-stopped
+    #ports:
+      #- "3306:3306"
+    #volumes:
+      #- "/etc/localtime:/etc/localtime:ro"
+      #- "/etc/timezone:/etc/timezone:ro"
+      # chmod 777
+      #- "./data_stud:/var/lib/mysql"
+    #environment:
+      #MARIADB_ROOT_PASSWORD: 1234secure
+      #MARIADB_DATABASE: students
+
+  # poster-api (servlet simple)
+  #poster-api:
+    #image: gitlab-depinfo.univ-brest.fr:5050/e12345678/apis/poster-api:latest
+    # l'image se connecte a obiwan en mongo
+    #ports:
+      #- "11046:8080" # remplacer 10003 par un port affecte a votre groupe
+    #depends_on:
+      #- postersdb
+  #postersdb:
+    #image: mongo:latest
+    #container_name: mongo_db_posters
+    #restart: unless-stopped
+    #ports:
+      #- "27017:27017" # Port standard de MongoDB
+    #volumes:
+      #- ./data_mongo:/data/db
