@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/posters")
 public class PosterController {
 
     private final PosterService posterService;
@@ -24,25 +23,25 @@ public class PosterController {
     /**
      * Method to get the Poster based on the ID
      */
-    @GetMapping("/{id}")
+    @GetMapping("/posters/{id}")
     public PosterDto getPoster(@PathVariable Long id) { return posterService.getPosterById(id); }
 
     /**
      * Create a new Poster in the system
      */
-    @PostMapping
+    @PostMapping("/posters")
     public PosterDto savePoster(final @RequestBody PosterDto posterDto) { return posterService.savePoster(posterDto); }
 
     /**
      * Update a Poster by it's id
      */
-    @PutMapping("/{id}")
+    @PutMapping("/posters/{id}")
     public PosterDto updatePoster(@PathVariable Long id, @RequestBody PosterDto posterDto) { return posterService.updatePoster(id, posterDto); }
 
     /**
-     * Delete a Movie by it's id
+     * Delete a Poster by it's id
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/posters/{id}")
     public Boolean deletePoster(@PathVariable Long id) { return posterService.deletePoster(id); }
 
 }

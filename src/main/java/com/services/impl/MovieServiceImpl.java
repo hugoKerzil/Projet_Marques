@@ -38,14 +38,14 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     @Transactional(readOnly = true)
-    public MovieDto getMovieById(Integer id) {
+    public MovieDto getMovieById(Long id) {
         return movieRepository.findById(id)
                 .map(movieMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("Film non trouvé"));
     }
 
     @Override
-    public MovieDto updateMovie(Integer id, MovieDto movieDto) {
+    public MovieDto updateMovie(Long id, MovieDto movieDto) {
         if (!movieRepository.existsById(id)) throw new EntityNotFoundException("Inexistant");
         var movie = movieMapper.toEntity(movieDto);
         movie.setId(id); // On force l'ID pour faire un update et non un insert
@@ -53,9 +53,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public boolean deleteMovie(Integer id) {
-        movieRepository.deleteById(id);
-        return true;
+    public boolean deleteMovie(Long id) {
+        if (movieRepository.existsById(id)) {
+            movieRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override

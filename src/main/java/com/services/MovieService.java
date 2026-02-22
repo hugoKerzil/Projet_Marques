@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface MovieService {
     MovieDto saveMovie(MovieDto movieDto);
-    MovieDto getMovieById(Integer id);
+    MovieDto getMovieById(Long id);
     MovieDto getMovieByTitle(String title);
     List<MovieDto> getAllMovies();
-    MovieDto updateMovie(Integer id, MovieDto movieDto);
-    boolean deleteMovie(Integer id);
+    MovieDto updateMovie(Long id, MovieDto movieDto);
+    boolean deleteMovie(Long id);
 }
