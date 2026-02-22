@@ -1,7 +1,7 @@
 package com.controllers;
 
 import com.dtos.MovieDto;
-import com.services.impl.MovieServiceImpl;
+import com.services.MovieService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.List;
 @RequestMapping("/movies")
 public class MovieController {
 
-    private final MovieServiceImpl movieService;
+    private final MovieService movieService;
 
-    public MovieController(MovieServiceImpl movieService) { this.movieService = movieService; }
+    public MovieController(MovieService movieService) { this.movieService = movieService; }
 
     /**
      * <p>Get all movies in the system</p>

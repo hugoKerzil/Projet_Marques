@@ -37,8 +37,8 @@ public class PosterServiceImpl implements PosterService {
      * {@inheritDoc}
      * Utilisation de l'API Stream pour une transformation fonctionnelle des données
      */
-    public List<PosterDto> getAllPosters() {
-        return posterRepository.findAll().stream()
+    public List<PosterDto> getAllPostersMovie(Long movieId) {
+        return posterRepository.findByMovieId(movieId).stream()
                 .map(posterMapper::toDto)
                 .toList();
     }
@@ -76,8 +76,11 @@ public class PosterServiceImpl implements PosterService {
      * La méthode deleteById ne lève pas d'exception si l'entité n'existe pas
      */
     public boolean deletePoster(Long posterId) {
-        posterRepository.deleteById(posterId);
-        return true;
+        if (posterRepository.existsById(posterId)) {
+            posterRepository.deleteById(posterId);
+            return true;
+        }
+        return false;
     }
 
 }

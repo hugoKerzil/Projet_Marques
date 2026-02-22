@@ -11,35 +11,36 @@ public class MovieMapper {
         if (movie == null) {
             return null;
         }
-        MovieDto dto = new MovieDto();
-        dto.setId(movie.getId());
-        dto.setTitle(movie.getTitle());
-        dto.setAnneeRealisation(movie.getAnneeRealisation());
-        dto.setRealisateur(movie.getRealisateur());
-        dto.setActeurs(movie.getActeurs());
-        dto.setGenres(movie.getGenres());
-        dto.setAgeMinimum(movie.getAgeMinimum());
-        dto.setAffiche(movie.getAffiche());
-        dto.setEstOuvertALaLocation(movie.isEstOuvertALaLocation());
-        return dto;
+        MovieDto movieDto = new MovieDto();
+        movieDto.setId(movie.getId());
+        movieDto.setTitle(movie.getTitle());
+        movieDto.setAnneeRealisation(movie.getAnneeRealisation());
+        movieDto.setRealisateur(movie.getRealisateur());
+        movieDto.setActeurs(movie.getActeurs());
+        movieDto.setGenres(movie.getGenres());
+        movieDto.setAgeMinimum(movie.getAgeMinimum());
+        movieDto.setAffiches(movie.getAffiches());
+        movieDto.setEstOuvertALaLocation(movie.isEstOuvertALaLocation());
+        return movieDto;
     }
 
-    public Movie toEntity(MovieDto dto) {
-        if (dto == null) {
+    public Movie toEntity(MovieDto movieDto) {
+        if (movieDto == null) {
             return null;
         }
+
         Movie movie = new Movie();
-        if (dto.getId() != null) {
-            movie.setId(dto.getId());
+        if (movieDto.getId() != null) {
+            movie.setId(movieDto.getId());
         }
-        movie.setTitle(dto.getTitle());
-        movie.setAnneeRealisation(dto.getAnneeRealisation());
-        movie.setRealisateur(dto.getRealisateur());
-        movie.setActeurs(dto.getActeurs());
-        movie.setGenres(dto.getGenres());
-        movie.setAgeMinimum(dto.getAgeMinimum());
-        movie.setAffiche(dto.getAffiche());
-        movie.setEstOuvertALaLocation(dto.isEstOuvertALaLocation());
+        movie.setTitle(movieDto.getTitle());
+        movie.setAnneeRealisation(movieDto.getAnneeRealisation());
+        movie.setRealisateur(movieDto.getRealisateur());
+        movie.setActeurs(movieDto.getActeurs());
+        movie.setGenres(movieDto.getGenres());
+        movie.setAgeMinimum(movieDto.getAgeMinimum());
+        movie.setAffiches(movieDto.getAffiches());
+        movie.setEstOuvertALaLocation(movieDto.isEstOuvertALaLocation());
         return movie;
     }
 

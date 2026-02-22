@@ -1,7 +1,5 @@
 package com.services;
 
-import com.controllers.PosterController;
-import com.dtos.MovieDto;
 import com.dtos.PosterDto;
 
 import java.util.List;
@@ -27,7 +25,7 @@ public interface PosterService {
      * Récupère tous les posters du système
      * @return la liste des posters
      */
-    List<PosterDto> getAllPosters();
+    List<PosterDto> getAllPostersMovie(Long movieId);
 
     /**
      * Modifie un poster du système

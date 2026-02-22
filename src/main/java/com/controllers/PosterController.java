@@ -1,9 +1,7 @@
 package com.controllers;
 
-import com.dtos.MovieDto;
 import com.dtos.PosterDto;
-import com.services.impl.MovieServiceImpl;
-import com.services.impl.PosterServiceImpl;
+import com.services.PosterService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,16 +10,16 @@ import java.util.List;
 @RequestMapping("/posters")
 public class PosterController {
 
-    private final PosterServiceImpl posterService;
+    private final PosterService posterService;
 
-    public PosterController(PosterServiceImpl posterService) { this.posterService = posterService; }
+    public PosterController(PosterService posterService) { this.posterService = posterService; }
 
     /**
-     * <p>Get all posters in the system</p>
+     * <p>Get all posters from a movie based on the ID</p>
      * @return List<PosterDto>
      */
-    @GetMapping
-    public List<PosterDto> getPosters() { return posterService.getAllPosters(); }
+    @GetMapping("/movie/{movieId}/posters")
+    public List<PosterDto> getPostersMovie(@PathVariable Long movieId) { return posterService.getAllPostersMovie(movieId); }
 
     /**
      * Method to get the Poster based on the ID

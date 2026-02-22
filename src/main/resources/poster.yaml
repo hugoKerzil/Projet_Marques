@@ -6,17 +6,6 @@ info:
 
 paths:
   /posters:
-    get:
-      summary: Liste tous les posters
-      responses:
-        '200':
-          description: Une liste de tous les posters
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Poster'
     post:
       summary: Ajoute un nouveau poster
       requestBody:
@@ -44,6 +33,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Poster'
+          description: Poster affiché avec succès
     put:
       summary: Met à jour un poster
       parameters:
@@ -104,7 +94,7 @@ components:
           type: integer
         movieId:
           type: integer
-        url:
+        nom:
           type: string
         description:
           type: string
