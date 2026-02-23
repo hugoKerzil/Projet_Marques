@@ -29,5 +29,4 @@ public class AuthenMapper {
         entity.setRole(dto.getRole() != null ? dto.getRole() : "USER");
         return entity;
     }
-    }
 }

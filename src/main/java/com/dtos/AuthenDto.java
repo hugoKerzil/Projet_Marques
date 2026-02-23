@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class AuthenDto {
 
-    private int id;
+    private Long id;
 
     @NotBlank(message = "Le pseudo est obligatoire")
     private String pseudo;
