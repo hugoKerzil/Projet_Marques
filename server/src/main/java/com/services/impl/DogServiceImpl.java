@@ -1,7 +1,6 @@
 package com.services.impl;
 
 import com.dtos.DogDto;
-import com.entities.Dog;
 import com.repositories.DogRepository;
 import com.services.DogService;
 import com.mappers.DogMapper;
