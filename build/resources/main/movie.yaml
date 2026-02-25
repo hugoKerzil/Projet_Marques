@@ -1,0 +1,139 @@
+openapi: 3.1.0
+info:
+  title: movie-api
+  description: API pour la gestion d'une bibliothèque de films.
+  version: 1.0.0
+
+servers:
+  - url: https://movie.com/api
+    description: Serveur de prod
+
+paths:
+  /movies:
+    get:
+      summary: Liste tous les films
+      description: Renvoie une liste de tous les film disponibles dans la base de données.
+      responses:
+        '200':
+          description: Une liste de films
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/movie'
+    post:
+      summary: Ajoute un nouveau film
+      description: Ajoute un nouveau film a la base de données.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/movie'
+      responses:
+        '201':
+          description: Film créé avec succès
+        '400':
+          description: Requête invalide
+
+  /movies/{id}:
+    get:
+      summary: Trouver un film par son id
+      description: Renvoie un film spécifique identifié par son id.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: L'id du film à trouver.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Détails d'un film
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/movie'
+        '404':
+          description: Film non trouvé
+    put:
+      summary: Met à jour un film
+      description: Met à jour les informations d'un film spécifique.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: L'id du film à mettre à jour.
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/movie'
+      responses:
+        '200':
+          description: Film mis à jour avec succès
+        '404':
+          description: Film non trouvé
+        '400':
+          description: Requête invalide
+    delete:
+      summary: Supprime un film
+      description: Supprime un film spécifique de la base de données.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: L'identifiant du film à supprimer.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Film supprimé avec succès
+        '404':
+          description: Film non trouvé
+
+components:
+  schemas:
+    movie:
+      type: object
+      required:
+        - titre
+        - anneeRealisation
+        - ageMinimum
+        - réalisateur
+      properties:
+        id:
+          type: integer
+        titre:
+          type: string
+          description: Le titre du film.
+        anneeRealisation:
+          type: string
+          format: date
+          description: La date de réalisation du film.
+        realisateur:
+          type: string
+          description: Nom du réalisateur.
+        acteurs:
+          type: array
+          items:
+            type: string
+          description: Liste des acteurs.
+        genres:
+          type: array
+          items:
+            type: string
+        ageMinimum:
+          type: integer
+          description: Âge minimum pour visionner le film.
+        affiche:
+          type: string
+          description: URL ou identifiant de l'image de l'affiche.
+        estOuvertALaLocation:
+          type: boolean
+          default: false
+          description: Indique si l'administrateur a ouvert le film à la location.

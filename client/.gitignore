@@ -7,36 +7,28 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Dependances & Build
-node_modules/
-dist/
-dist-ssr/
-coverage/
-*.local
-
-# Environnement (Important pour tes futurs réglages d'API)
-.env
-.env.*.local
-
-# Fichiers système
+node_modules
 .DS_Store
-Thumbs.db
+dist
+dist-ssr
+coverage
+*.local
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea/
+.idea
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-# TypeScript / Lint
 *.tsbuildinfo
+
 .eslintcache
 
-# Cypress (Si tu as finalement gardé les tests E2E)
+# Cypress
 /cypress/videos/
 /cypress/screenshots/
 
