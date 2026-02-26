@@ -24,7 +24,7 @@ public class MovieMapper {
         return movieDto;
     }
 
-    public Movie toEntity(MovieDto movieDto) {
+    public static Movie toEntity(MovieDto movieDto) {
         if (movieDto == null) {
             return null;
         }
