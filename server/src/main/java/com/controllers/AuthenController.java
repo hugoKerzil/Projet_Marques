@@ -27,7 +27,7 @@ public class AuthenController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthenDto loginDto) {
         try {
-            AuthenDto user = authenService.login(loginDto.getPseudo(), loginDto.getMotDePasse());
+            AuthenDto user = authenService.login(loginDto.getPseudo(), loginDto.getPassword());
             return ResponseEntity.ok(user);
         } catch (RuntimeException e) {
             return ResponseEntity.status(401).body(e.getMessage()); // 401 = Non autorisé
