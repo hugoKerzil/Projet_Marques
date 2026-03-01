@@ -1,0 +1,100 @@
+openapi: 3.1.0
+info:
+  title: poster-api
+  description: API for managing movie posters.
+  version: 1.0.0
+
+paths:
+  /posters:
+    post:
+      summary: Ajoute un nouveau poster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Poster'
+      responses:
+        '201':
+          description: Poster créé avec succès
+
+  /posters/{id}:
+    get:
+      summary: Récupère un poster par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Poster'
+          description: Poster affiché avec succès
+    put:
+      summary: Met à jour un poster
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Poster'
+      responses:
+        '200':
+          description: Poster mis à jour
+    delete:
+      summary: Supprime un poster
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Poster supprimé
+
+  /movies/{movieId}/posters:
+    get:
+      summary: Liste tous les posters d'un film spécifique
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste des posters du film
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Poster'
+
+components:
+  schemas:
+    Poster:
+      type: object
+      required:
+        - movieId
+        - url
+      properties:
+        id:
+          type: integer
+        movieId:
+          type: integer
+        nom:
+          type: string
+        description:
+          type: string

@@ -11,7 +11,7 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Identifiant unique
+    private int id; // Identifiant unique
 
     private String title; // Titre du film
 

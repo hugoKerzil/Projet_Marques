@@ -1,0 +1,3 @@
+rootProject.name = 'Projet_Marques'
+include 'server'
+include 'gateway'

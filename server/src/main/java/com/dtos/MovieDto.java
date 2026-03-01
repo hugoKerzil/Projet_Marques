@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class MovieDto {
 
-    private Long id;
+    private int id;
 
     @NotBlank(message = "Le titre est obligatoire")
     private String title;

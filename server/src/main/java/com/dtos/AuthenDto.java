@@ -15,4 +15,6 @@ public class AuthenDto {
     private String password;
 
     private String role;
+
+
 }

@@ -25,7 +25,7 @@ public class MovieController {
      * Method to get the Movie based on the ID
      */
     @GetMapping("/{id}")
-    public MovieDto getMovie(@PathVariable Long id) { return movieService.getMovieById(id); }
+    public MovieDto getMovie(@PathVariable int id) { return movieService.getMovieById(id); }
 
     /**
      * Create a new Movie in the system
@@ -37,11 +37,11 @@ public class MovieController {
      * Update a Movie by it's id
      */
     @PutMapping("/{id}")
-    public MovieDto updateMovie(@PathVariable Long id, @RequestBody MovieDto movieDto) { return movieService.updateMovie(id, movieDto); }
+    public MovieDto updateMovie(@PathVariable int id, @RequestBody MovieDto movieDto) { return movieService.updateMovie(id, movieDto); }
 
     /**
      * Delete a Movie by it's id
      */
     @DeleteMapping("/{id}")
-    public Boolean deleteMovie(@PathVariable Long id) { return movieService.deleteMovie(id); }
+    public Boolean deleteMovie(@PathVariable int id) { return movieService.deleteMovie(id); }
 }

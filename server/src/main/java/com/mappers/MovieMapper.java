@@ -30,7 +30,7 @@ public class MovieMapper {
         }
 
         Movie movie = new Movie();
-        if (movieDto.getId() != null) {
+        if (movieDto.getId() != -1) {
             movie.setId(movieDto.getId());
         }
         movie.setTitle(movieDto.getTitle());
