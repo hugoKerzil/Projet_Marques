@@ -45,3 +45,7 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+build/
+*.jar
+.gradle/
