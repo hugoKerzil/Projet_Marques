@@ -1,7 +1,6 @@
 package com.demo;
 
 import com.dtos.MovieDto;
-import com.dtos.PosterDto;
 import com.entities.Authen;
 import com.entities.Movie;
 import com.entities.Poster;

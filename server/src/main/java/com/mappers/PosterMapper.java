@@ -1,6 +1,5 @@
 package com.mappers;
 
-import com.dtos.PosterDto;
 import com.entities.Poster;
 import org.springframework.stereotype.Component;
 
