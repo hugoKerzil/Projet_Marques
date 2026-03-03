@@ -4,6 +4,15 @@ server:
 spring:
   cloud:
     gateway:
+      cors-configurations:
+        '[/**]':
+          allowedOrigins: "http://localhost:5173"
+          allowedMethods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+          allowedHeaders: "*"
       routes:
         - id: movie-route
           uri: http://localhost:8081

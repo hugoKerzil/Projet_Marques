@@ -1,10 +1,21 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 // Données de test (Mocks) pour l'aspect visuel
 const movies = [
   { id: 1, title: "Inception", genre: "S-F", year: 2010 },
   { id: 2, title: "Interstellar", genre: "S-F", year: 2014 },
   { id: 3, title: "The Dark Knight", genre: "Action", year: 2008 },
 ];
+
+onMounted(async () => {
+  try {
+    const response = await fetch ('/api/movies');
+    const data = await response.json();
+    console.log("La connexion avec Gateway bonne !!! Données reçus :", data);
+  } catch (error) {
+    console.log("La connexion avec la Gateway n'est pas bonne. L'erreur est ====>", error);
+  }
+})
 </script>
 
 <template>
