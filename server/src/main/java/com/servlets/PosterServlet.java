@@ -1,6 +1,6 @@
-package com.Servlets;
+package com.servlets;
 
-import com.DAO.PosterDAO;
+import com.dao.PosterDAO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.entities.Poster;
 import jakarta.servlet.ServletException;
