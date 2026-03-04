@@ -9,20 +9,20 @@ public class MovieDto {
 
     private int id;
 
-    @NotBlank(message = "Le titre est obligatoire")
+    @NotBlank(message = "The title is required.")
     private String title;
 
-    @NotBlank(message = "L'année de réalisation est obligatoire")
+    @NotBlank(message = "The year of completion is required.")
     private String yearCompletion;
 
-    @NotBlank(message = "Le nom du réalisateur")
+    @NotBlank(message = "The director's name is required.")
     private String director;
 
     private List<String> actors;
 
     private List<String> genres;
 
-    @Min(value = 0, message = "L'âge minimum ne peut pas être inférieur à 0 an")
+    @Min(value = 0, message = "The minimum age cannot be less than 0 years old.")
     private Long minimumAge;
 
     private List<String> posters;

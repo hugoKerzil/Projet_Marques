@@ -11,24 +11,24 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; // Identifiant unique
+    private int id;
 
-    private String title; // Titre du film
+    private String title;
 
-    private String anneeRealisation; // Année de réalisation
+    private String yearCompletion;
 
-    private String realisateur; // Nom du réalisateur
-
-    @ElementCollection
-    private List<String> acteurs; // Ensemble d'acteurs
+    private String director;
 
     @ElementCollection
-    private List<String> genres; // Genres du film
-
-    private Long ageMinimum; // Âge minimum pour visionner le film
+    private List<String> actors;
 
     @ElementCollection
-    private List<String> affiches; // Chemin ou URL de l'image de l'affiche
+    private List<String> genres;
 
-    private boolean estOuvertALaLocation; // État de disponibilité (ouvert/fermé)
+    private Long minimumAge;
+
+    @ElementCollection
+    private List<String> posters;
+
+    private boolean isOpenForRent;
 }
