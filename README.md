@@ -16,12 +16,12 @@ Installation
 1. Cloner le dépôt
     git clone https://github.com/hugoKerzil/Projet_Marques
     cd Projet_Marques
-2. Installer les dépendances
+2. Installer les dépendances coté client
     npm install
 3. Changer les informations de votre base de données MongoDB dans le code
-4. Lancer avec Docker
-    docker-compose up --build
-5. Démarrer en mode développement
+4. Lancer avec Docker à la racine du projet
+    docker compose up -d
+5. Démarrer en mode développement coté client
     npm run dev
 
 Contribution
