@@ -16,6 +16,10 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
+    /**
+     * <p>Method for verifying that payment is valid</p>
+     * @return ResponseEntity<Boolean>
+     */
     @PostMapping("/validate")
     public ResponseEntity<Boolean> validatePayment(@RequestBody PaymentDto request) {
         boolean isValid =  paymentService.process(request);

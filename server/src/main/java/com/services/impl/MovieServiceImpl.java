@@ -16,18 +16,33 @@ public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
 
+    /**
+     * Builder with dependency injection
+     * Injection by constructor is preferred over @Autowired because:
+     * - It makes dependencies mandatory
+     * - It facilitates unit testing
+     * - It enables immutability
+     */
     public MovieServiceImpl(MovieRepository movieRepository, MovieMapper movieMapper) {
         this.movieRepository = movieRepository;
         this.movieMapper = movieMapper;
     }
 
+    /**
+     * {@inheritDoc}
+     * This method is transactional by default thanks to @Transactional on the class.
+     */
     @Override
     public MovieDto saveMovie(MovieDto movieDto) {
         var movie = movieMapper.toEntity(movieDto);
-        movie.setEstOuvertALaLocation(false); // [cite: 25]
+        movie.setEstOuvertALaLocation(false);
         return movieMapper.toDto(movieRepository.save(movie));
     }
 
+    /**
+     * {@inheritDoc}
+     * Using the Stream API for functional data transformation.
+     */
     @Override
     @Transactional(readOnly = true)
     public List<MovieDto> getAllMovies() {
@@ -36,6 +51,10 @@ public class MovieServiceImpl implements MovieService {
                 .toList();
     }
 
+    /**
+     * {@inheritDoc}
+     * Using the orElseThrow method for elegant error handling
+     */
     @Override
     @Transactional(readOnly = true)
     public MovieDto getMovieById(int id) {
@@ -44,14 +63,22 @@ public class MovieServiceImpl implements MovieService {
                 .orElseThrow(() -> new EntityNotFoundException("Film non trouvé"));
     }
 
+    /**
+     * {@inheritDoc}
+     * Forcing the ID to perform an update rather than an insert.
+     */
     @Override
     public MovieDto updateMovie(int id, MovieDto movieDto) {
         if (!movieRepository.existsById(id)) throw new EntityNotFoundException("Inexistant");
         var movie = movieMapper.toEntity(movieDto);
-        movie.setId(id); // On force l'ID pour faire un update et non un insert
+        movie.setId(id);
         return movieMapper.toDto(movieRepository.save(movie));
     }
 
+    /**
+     * {@inheritDoc}
+     * The deleteById method does not throw an exception if the entity does not exist.
+     */
     @Override
     public boolean deleteMovie(int id) {
         if (movieRepository.existsById(id)) {

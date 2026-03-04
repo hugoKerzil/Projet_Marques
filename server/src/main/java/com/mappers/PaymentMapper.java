@@ -8,7 +8,21 @@ import org.springframework.stereotype.Component;
 public class PaymentMapper {
 
     /**
-     * Transforme le DTO reçu du Front en Entité pour la base SQL
+     * <p>Method for converting a payment entity into a DTO</p>
+     * @return PaymentDto
+     */
+    public PaymentDto toDto(Payment paiement) {
+        if (paiement == null) return null;
+
+        PaymentDto dto = new PaymentDto();
+        dto.setAmount(paiement.getMontant());
+
+        return dto;
+    }
+
+    /**
+     * <p>Method for converting a DTO object into a payment entity</p>
+     * @return Payment
      */
     public Payment toEntity(PaymentDto dto) {
         if (dto == null) return null;
@@ -21,15 +35,4 @@ public class PaymentMapper {
         return paiement;
     }
 
-    /**
-     * Transforme l'Entité SQL en DTO pour répondre au Front
-     */
-    public PaymentDto toDto(Payment paiement) {
-        if (paiement == null) return null;
-
-        PaymentDto dto = new PaymentDto();
-        dto.setAmount(paiement.getMontant());
-
-        return dto;
-    }
 }

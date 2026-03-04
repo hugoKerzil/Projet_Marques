@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthenMapper {
 
+    /**
+     * <p>Method for converting an authentication entity into a DTO</p>
+     * @return AuthenDto
+     */
     public AuthenDto toDto(Authen entity) {
         if (entity == null) return null;
         AuthenDto dto = new AuthenDto();
@@ -18,6 +22,10 @@ public class AuthenMapper {
         return dto;
     }
 
+    /**
+     * <p>Method for converting a DTO object into an authentication entity</p>
+     * @return Authen
+     */
     public Authen toEntity(AuthenDto dto) {
         if (dto == null) return null;
         Authen entity = new Authen();

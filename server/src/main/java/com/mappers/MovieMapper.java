@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class MovieMapper {
 
+    /**
+     * <p>Method for converting a movie entity into a DTO</p>
+     * @return MovieDto
+     */
     public MovieDto toDto(Movie movie) {
         if (movie == null) {
             return null;
@@ -24,6 +28,10 @@ public class MovieMapper {
         return movieDto;
     }
 
+    /**
+     * <p>Method for converting a DTO object into a movie entity</p>
+     * @return Movie
+     */
     public static Movie toEntity(MovieDto movieDto) {
         if (movieDto == null) {
             return null;

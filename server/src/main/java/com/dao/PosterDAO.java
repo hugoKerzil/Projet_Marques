@@ -17,6 +17,9 @@ public class PosterDAO {
         this.collection = MongoDBConfig.getDatabase().getCollection("posters");
     }
 
+    /**
+     * <p>Method for saving a poster in the MongoDB database</p>
+     */
     public void save(Poster poster) {
         Document doc = new Document("id", poster.getId())
                 .append("movieId", poster.getMovieId())
@@ -26,7 +29,8 @@ public class PosterDAO {
     }
 
     /**
-     * Récupère un poster par son identifiant unique
+     * <p>Method for retrieving a poster by its unique identifier</p>
+     * @return Poster
      */
     public Poster findById(Long id) {
         Document doc = collection.find(eq("id", id)).first();
@@ -34,7 +38,8 @@ public class PosterDAO {
     }
 
     /**
-     * Récupère tous les posters associés à un film spécifique [cite: 11]
+     * <p>Method for retrieving all posters associated with a specific movie</p>
+     * @return List<Poster>
      */
     public List<Poster> findByMovieId(Long movieId) {
         List<Poster> posters = new ArrayList<>();
@@ -45,7 +50,7 @@ public class PosterDAO {
     }
 
     /**
-     * Met à jour les informations d'un poster existant
+     * <p>Method for updating information on an existing poster</p>
      */
     public void update(Poster poster) {
         collection.updateOne(
@@ -59,15 +64,16 @@ public class PosterDAO {
     }
 
     /**
-     * Supprime un poster de la base MongoDB
+     * <p>Method for deleting a poster from the MongoDB database</p>
+     * @return boolean
      */
     public boolean delete(Long id) {
         return collection.deleteOne(eq("id", id)).getDeletedCount() > 0;
     }
 
     /**
-     * Méthode utilitaire pour convertir un Document BSON en entité Poster
-     * Cela assure le découplage entre la couche données et la couche métier
+     * <p>Utility method for converting a BSON document into a Poster entity</p>
+     * @return Poster
      */
     private Poster documentToPoster(Document doc) {
         Poster poster = new Poster();

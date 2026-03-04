@@ -15,6 +15,10 @@ public class AuthenController {
         this.authenService = authenService;
     }
 
+    /**
+     * <p>Method to register to the application</p>
+     * @return ResponseEntity<?>
+     */
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody AuthenDto authenDto) {
         try {
@@ -24,6 +28,10 @@ public class AuthenController {
         }
     }
 
+    /**
+     * <p>Method for connecting to the application</p>
+     * @return ResponseEntity<?>
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthenDto loginDto) {
         try {

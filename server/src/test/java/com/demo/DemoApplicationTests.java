@@ -5,7 +5,6 @@ import com.entities.Authen;
 import com.entities.Movie;
 import com.entities.Poster;
 import com.mappers.MovieMapper;
-import com.mappers.PosterMapper;
 import com.repositories.AuthenRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

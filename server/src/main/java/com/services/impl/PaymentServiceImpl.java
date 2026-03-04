@@ -13,10 +13,21 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
 
+    /**
+     * Builder with dependency injection
+     * Injection by constructor is preferred over @Autowired because:
+     * - It makes dependencies mandatory
+     * - It facilitates unit testing
+     * - It enables immutability
+     */
     public PaymentServiceImpl(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
     }
 
+    /**
+     * {@inheritDoc}
+     * This method verifies the user's payment information and returns true if everything is correct.
+     */
     @Override
     public boolean process(PaymentDto request) {
 
