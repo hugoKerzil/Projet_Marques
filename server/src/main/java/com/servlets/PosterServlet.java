@@ -9,7 +9,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/posters", "/posters/*", "/movies/*"})
+@WebServlet(urlPatterns = {"/posters", "/posters/*"})
 public class PosterServlet extends HttpServlet {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final PosterDAO posterDAO = new PosterDAO();
@@ -19,11 +19,20 @@ public class PosterServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        String servletPath = request.getServletPath();
         String pathInfo = request.getPathInfo();
 
         try {
-            if ("/posters".equals(servletPath) && pathInfo != null && pathInfo.length() > 1) {
+            if (pathInfo == null || pathInfo.equals("/")) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID manquant");
+            }
+            else if (pathInfo.startsWith("/movie/")) {
+                // Route: GET /posters/movie/{movieId}
+                Long movieId = Long.parseLong(pathInfo.substring(7));
+                List<Poster> posters = posterDAO.findByMovieId(movieId);
+                response.getWriter().write(objectMapper.writeValueAsString(posters));
+            }
+            else {
+                // Route: GET /posters/{id}
                 Long id = Long.parseLong(pathInfo.substring(1));
                 Poster poster = posterDAO.findById(id);
                 if (poster != null) {
@@ -31,13 +40,6 @@ public class PosterServlet extends HttpServlet {
                 } else {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Poster non trouvé");
                 }
-            } else if ("/movies".equals(servletPath) && pathInfo != null && pathInfo.endsWith("/posters")) {
-                String[] parts = pathInfo.split("/");
-                Long movieId = Long.parseLong(parts[1]);
-                List<Poster> posters = posterDAO.findByMovieId(movieId);
-                response.getWriter().write(objectMapper.writeValueAsString(posters));
-            } else {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Route non reconnue");
             }
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Format d'ID invalide");
