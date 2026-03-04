@@ -13,19 +13,19 @@ public class MovieDto {
     private String title;
 
     @NotBlank(message = "L'année de réalisation est obligatoire")
-    private String anneeRealisation;
+    private String yearCompletion;
 
     @NotBlank(message = "Le nom du réalisateur")
-    private String realisateur;
+    private String director;
 
-    private List<String> acteurs;
+    private List<String> actors;
 
     private List<String> genres;
 
     @Min(value = 0, message = "L'âge minimum ne peut pas être inférieur à 0 an")
-    private Long ageMinimum;
+    private Long minimumAge;
 
-    private List<String> affiches;
+    private List<String> posters;
 
-    private boolean estOuvertALaLocation;
+    private boolean isOpenForRent;
 }
