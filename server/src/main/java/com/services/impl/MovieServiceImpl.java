@@ -35,7 +35,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDto saveMovie(MovieDto movieDto) {
         var movie = movieMapper.toEntity(movieDto);
-        movie.setEstOuvertALaLocation(false);
+        movie.setOpenForRent(false);
         return movieMapper.toDto(movieRepository.save(movie));
     }
 
