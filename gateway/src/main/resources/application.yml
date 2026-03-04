@@ -21,10 +21,14 @@ spring:
             allowCredentials: true
       routes:
         - id: movie-route
-          uri: http://movie-api:8081
+          uri: http://localhost:8081
           predicates:
             - Path=/movies/**
         - id: poster-route
-          uri: http://movie-api:8081
+          uri: http://localhost:8081
           predicates:
             - Path=/posters/**
+        - id: auth-route
+          uri: http://localhost:8081
+          predicates:
+            - Path=/auth/**
