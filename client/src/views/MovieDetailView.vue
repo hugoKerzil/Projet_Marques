@@ -15,6 +15,8 @@ onMounted(async () => {
 
     const data = await response.json();
     movie.value = data;
+
+    console.log("La connexion avec Gateway bonne !!! Données reçus :", data);
   } catch (error) {
     console.error("Erreur détaillée :", error);
   }
@@ -47,7 +49,12 @@ onMounted(async () => {
           <p><strong>Acteurs :</strong> {{ movie.actors?.join(', ') }}</p>
         </div>
 
-        <button class="play-btn">Regarder le film</button>
+        <button
+          class="play-btn"
+          :disabled="!movie.openForRent"
+        >
+          {{ movie.openForRent ? 'Louer le film' : 'Indisponible' }}
+        </button>
       </div>
     </div>
   </div>

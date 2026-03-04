@@ -8,7 +8,7 @@ onMounted(async () => {
     const response = await fetch ('/api/movies');
     const data = await response.json();
     movies.value = data;
-    console.log("La connexion avec Gateway bonne !!! Données reçus :", data);
+
   } catch (error) {
     console.log("La connexion avec la Gateway n'est pas bonne. L'erreur est ====>", error);
   }
