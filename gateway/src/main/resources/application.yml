@@ -1,16 +1,25 @@
-server:
-  port: 8080
-
 spring:
   cloud:
     gateway:
+      default-filters:
+        # On supprime l'en-tête s'il existe déjà avant que la Gateway n'ajoute le sien
+        - RemoveResponseHeader=Access-Control-Allow-Origin
+        - RemoveResponseHeader=Access-Control-Allow-Credentials
+        # Sécurité supplémentaire pour éviter les doublons restants
+        - name: DedupeResponseHeader
+          args:
+            strategy: RETAIN_FIRST
+            name: Access-Control-Allow-Origin Access-Control-Allow-Credentials
+
       globalcors:
         add-to-chain: true
         cors-configurations:
           '[/**]':
-            allowedOrigins: "*"
+            allowedOriginPatterns: "http://localhost:5173"
             allowedMethods: "*"
             allowedHeaders: "*"
+            allowCredentials: true
+
       routes:
         - id: movie-service-route
           uri: http://movie-api:8081

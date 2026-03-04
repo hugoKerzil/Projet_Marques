@@ -23,11 +23,8 @@ public class App {
 	CommandLineRunner testDatabase(JdbcTemplate jdbc) {
 		return args -> {
 			try {
-
-				// 1. Vérification de la connexion
 				String dbName = jdbc.queryForObject("SELECT DATABASE()", String.class);
 				log.info("Connecté à : {}", dbName);
-
 			} catch (Exception e) {
 				log.error("Échec de la connexion à la base de données : {}", e.getMessage());
 			}
