@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 
 const movies = ref<any[]>([]);
 const GATEWAY_URL = "http://info-tpsi.univ-brest.fr:11040";
@@ -14,15 +14,55 @@ onMounted(async () => {
     console.error("Erreur de connexion :", error);
   }
 })
+
+const searchCriteria = ref({
+  title: '',
+  director: '',
+  genre: '',
+  actor: ''
+})
+
+const filteredMovies = computed(() => {
+  return movies.value.filter(movie => {
+    return movie.title.toLowerCase().includes(searchCriteria.value.title.toLowerCase()) &&
+      movie.director.toLowerCase().includes(searchCriteria.value.director.toLowerCase()) &&
+      (searchCriteria.value.genre === '' || movie.genres.some((g: string) => g.toLowerCase().includes(searchCriteria.value.genre.toLowerCase()))) &&
+      (searchCriteria.value.actor === '' || movie.actors.some((a: string) => a.toLowerCase().includes(searchCriteria.value.actor.toLowerCase())))
+  })
+})
 </script>
 
 <template>
   <div class="catalog">
     <h1>Catalogue VOD</h1>
+    ev
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label>Titre</label>
+        <input v-model="searchCriteria.title" type="text" placeholder="Rechercher un film..." />
+      </div>
+      <div class="filter-group">
+        <label>Genre</label>
+        <input v-model="searchCriteria.genre" type="text" placeholder="Action, Drame..." />
+      </div>
+      <div class="filter-group">
+        <label>Réalisateur</label>
+        <input v-model="searchCriteria.director" type="text" placeholder="Nom du réalisateur..." />
+      </div>
+      <div class="filter-group">
+        <label>Acteur</label>
+        <input v-model="searchCriteria.actor" type="text" placeholder="Nom d'un acteur..." />
+      </div>
+    </div>
+
     <div class="movie-grid">
       <div v-if="movies.length === 0" class="loading">Chargement des films...</div>
 
-      <div v-for="movie in movies" :key="movie.id" class="movie-card">
+      <div v-else-if="filteredMovies.length === 0" class="no-results">
+        Aucun film ne correspond à vos critères.
+      </div>
+
+      <div v-for="movie in filteredMovies" :key="movie.id" class="movie-card">
         <div class="poster-container">
           <img
             v-if="movie.posters && movie.posters.length > 0"
@@ -126,5 +166,50 @@ onMounted(async () => {
 
 .detail-btn:hover {
   background-color: #33a06f;
+}
+
+.filter-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filter-group label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #2c3e50;
+  text-transform: uppercase;
+}
+
+.filter-group input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.filter-group input:focus {
+  outline: none;
+  border-color: #42b883;
+  box-shadow: 0 0 0 2px rgba(66, 184, 131, 0.2);
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-style: italic;
 }
 </style>

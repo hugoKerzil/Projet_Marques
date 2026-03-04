@@ -57,6 +57,7 @@ onMounted(async () => {
           class="play-btn"
           :class="{ 'disabled-btn': !movie.openForRent }"
           :disabled="!movie.openForRent"
+          @click="router.push(`/movie/${movie.id}/payment`)"
         >
           {{ movie.openForRent ? 'Louer le film' : 'Indisponible actuellement' }}
         </button>

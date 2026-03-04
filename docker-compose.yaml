@@ -1,5 +1,5 @@
 ﻿services:
-  # Base de données MySQL (vodd_db)
+  # Base de données MySQL
   db:
     image: mysql:8.0
     container_name: vodd_db_test
@@ -12,7 +12,7 @@
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  # Base de données MongoDB (postersdb)
+  # Base de données MongoDB
   postersdb:
     image: mongo:latest
     container_name: mongo_db_posters
@@ -21,3 +21,27 @@
       - "27017:27017"
     volumes:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+
+  # Service Movie API
+  movie-api:
+    build: ./server
+    container_name: movie-api-test
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/vodd_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATA_MONGODB_URI: mongodb://postersdb:27017/postersdb
+    depends_on:
+      - db
+      - postersdb
+
+  # Service Gateway
+  gateway:
+    build: ./gateway
+    container_name: gateway-test
+    restart: always
+    ports:
+      - "11040:8080"
+    depends_on:
+      - movie-api
