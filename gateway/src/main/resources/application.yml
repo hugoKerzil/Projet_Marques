@@ -5,30 +5,14 @@ spring:
   cloud:
     gateway:
       globalcors:
-        add-to-chain: true # FORCE l'ajout des headers CORS
+        add-to-chain: true
         cors-configurations:
           '[/**]':
-            allowedOrigins:
-              - "http://localhost:5173"
-              - "http://info-tpsi.univ-brest.fr:5173"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
+            allowedOrigins: "*"
+            allowedMethods: "*"
             allowedHeaders: "*"
-            allowCredentials: true
       routes:
-        - id: movie-route
-          uri: http://localhost:8081
+        - id: movie-service-route
+          uri: http://movie-api:8081
           predicates:
-            - Path=/movies/**
-        - id: poster-route
-          uri: http://localhost:8081
-          predicates:
-            - Path=/posters/**
-        - id: auth-route
-          uri: http://localhost:8081
-          predicates:
-            - Path=/auth/**
+            - Path=/movies/**, /posters/**, /auth/**

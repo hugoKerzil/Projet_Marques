@@ -8,15 +8,16 @@ const movieId = route.params.id
 
 const movie = ref<any>(null);
 
+const GATEWAY_URL = "http://info-tpsi.univ-brest.fr:11040";
+
 onMounted(async () => {
   try {
-    const response = await fetch(`http://localhost:8080/movies/${movieId}`);
+    const response = await fetch(`${GATEWAY_URL}/movies/${movieId}`);
     if (!response.ok) throw new Error('Film non trouvé');
 
     const data = await response.json();
     movie.value = data;
 
-    console.log("La connexion avec Gateway bonne !!! Données reçus :", data);
   } catch (error) {
     console.error("Erreur détaillée :", error);
   }
@@ -29,20 +30,23 @@ onMounted(async () => {
 
     <div class="content-layout">
       <div class="poster-container">
-        <div class="poster-placeholder">Affiche du film {{ movie.id }}</div>
+        <img v-if="movie.posters && movie.posters.length > 0"
+             :src="movie.posters[0]"
+             :alt="movie.title"
+             class="movie-poster" />
+        <div v-else class="poster-placeholder">Affiche non disponible</div>
       </div>
 
       <div class="info-container">
         <h1>{{ movie.title }}</h1>
 
         <div class="meta-data">
-          <span>{{ movie.year }}</span> •
-          <span>{{ movie.duration }} min</span> •
+          <span>{{ movie.yearCompletion }}</span> •
           <span>{{ movie.genres?.join(', ') }}</span> •
-          <span class="age-badge">{{ movie.ageLimit }}+</span>
+          <span class="age-badge">{{ movie.minimumAge }}+</span>
         </div>
 
-        <p class="synopsis">{{ movie.synopsis }}</p>
+        <p class="synopsis">Réalisé par {{ movie.director }}.</p>
 
         <div class="credits">
           <p><strong>Réalisateur :</strong> {{ movie.director }}</p>
@@ -51,9 +55,10 @@ onMounted(async () => {
 
         <button
           class="play-btn"
+          :class="{ 'disabled-btn': !movie.openForRent }"
           :disabled="!movie.openForRent"
         >
-          {{ movie.openForRent ? 'Louer le film' : 'Indisponible' }}
+          {{ movie.openForRent ? 'Louer le film' : 'Indisponible actuellement' }}
         </button>
       </div>
     </div>
@@ -63,3 +68,15 @@ onMounted(async () => {
     Chargement du film...
   </div>
 </template>
+
+<style scoped>
+.movie-poster {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.disabled-btn {
+  background-color: #666 !important;
+  cursor: not-allowed;
+}
+</style>

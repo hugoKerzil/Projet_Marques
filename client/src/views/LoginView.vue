@@ -9,6 +9,9 @@ const pseudo = ref('');
 const password = ref('');
 const errorMessage = ref('');
 
+// URL de ta Gateway sur le serveur UBO
+const GATEWAY_URL = "http://info-tpsi.univ-brest.fr:11040";
+
 const toggleMode = () => {
   isLoginMode.value = !isLoginMode.value;
   errorMessage.value = '';
@@ -19,7 +22,7 @@ const handleSubmit = async () => {
   errorMessage.value = '';
 
   const endpoint = isLoginMode.value ? '/auth/login' : '/auth/register';
-  const url = `http://localhost:8080${endpoint}`;
+  const url = `${GATEWAY_URL}${endpoint}`;
 
   try {
     const response = await fetch(url, {
@@ -34,13 +37,15 @@ const handleSubmit = async () => {
     });
 
     if (!response.ok) {
+      // On essaye de récupérer le message d'erreur du backend
       const errorText = await response.text();
-      throw new Error(errorText || 'Erreur lors de la requête');
+      throw new Error(errorText || 'Identifiants incorrects ou erreur serveur');
     }
 
     const data = await response.json();
     console.log("Succès :", data);
 
+    // Stockage de l'utilisateur (on peut stocker le pseudo ou le token)
     localStorage.setItem('user', JSON.stringify(data));
 
     router.push('/catalog');

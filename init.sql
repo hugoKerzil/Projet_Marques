@@ -101,9 +101,9 @@ INSERT INTO movie_genres (movie_id, genres) VALUES
 -- Postiers (Liens vers les images)
 -- Ajout basé sur la table créée par Hibernate dans vos logs
 INSERT INTO movie_posters (movie_id, posters) VALUES
-                                                  (1, 'https://image.tmdb.org/t/p/w500/9gk7Fn9sVAsS9o9iwG10mUuViPz.jpg'),
-                                                  (2, 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6vCU6mfsjGvow.jpg'),
-                                                  (3, 'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDp9EXjD0PWPvDbZ2su.jpg');
+                                                  (1, 'https://static.wikia.nocookie.net/cinematheque/images/9/9f/Inception_-_Poster_%280%29.jpg/revision/latest?cb=20230412164019&path-prefix=fr'),
+                                                  (2, 'https://fr.web.img6.acsta.net/pictures/14/09/24/12/08/158828.jpg'),
+                                                  (3, 'https://fr.web.img2.acsta.net/medias/nmedia/18/63/97/89/18949761.jpg');
 
 -- -----------------------------------------------------
 -- Insertion des Locations et Paiements
