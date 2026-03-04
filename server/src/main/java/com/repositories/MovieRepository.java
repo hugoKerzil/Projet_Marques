@@ -12,10 +12,10 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
     List<Movie> findByGenresContaining(String genre);
 
     // Trouver les films d'un réalisateur précis
-    List<Movie> findByRealisateur(String realisateur);
+    List<Movie> findByDirector(String director);
 
     // Trouver les films où un acteur précis joue
-    List<Movie> findByActeursContaining(String acteur);
+    List<Movie> findByActorsContaining(String actor);
 
     // Trouver un film par son titre unique
     Movie findByTitle(String title);
