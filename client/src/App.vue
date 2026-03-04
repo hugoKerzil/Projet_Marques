@@ -1,8 +1,11 @@
+<script setup lang="ts">
+</script>
 <template>
   <header>
     <nav>
       <RouterLink to="/catalog">Catalogue</RouterLink>
       <RouterLink to="/">Connexion</RouterLink>
+      <RouterLink to="/profile">Profil</RouterLink>
     </nav>
   </header>
 
