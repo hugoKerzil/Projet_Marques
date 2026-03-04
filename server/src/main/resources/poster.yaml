@@ -63,7 +63,7 @@ paths:
         '200':
           description: Poster supprimé
 
-  /movies/{movieId}/posters:
+  /posters/movie/{movieId}:
     get:
       summary: Liste tous les posters d'un film spécifique
       parameters:
