@@ -14,13 +14,13 @@ public class Payment {
 
     private String type;
 
-    private String statut;
+    private String status;
 
-    private double montant;
+    private double amount;
 
     /**
-     * Relation avec la table Location.
-     * Un paiement appartient à une seule location.
+     * Relationship with the Location table.
+     * A payment belongs to a single rental.
      */
     @ManyToOne
     @JoinColumn(name = "location_id", nullable = false)

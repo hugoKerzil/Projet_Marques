@@ -8,10 +8,10 @@ public class AuthenDto {
 
     private Long id;
 
-    @NotBlank(message = "Le pseudo est obligatoire")
+    @NotBlank(message = "The username is required.")
     private String pseudo;
 
-    @NotBlank(message = "Le mot de passe est obligatoire")
+    @NotBlank(message = "A password is required.")
     private String password;
 
     private String role;
