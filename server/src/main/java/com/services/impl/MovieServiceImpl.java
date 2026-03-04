@@ -60,7 +60,7 @@ public class MovieServiceImpl implements MovieService {
     public MovieDto getMovieById(int id) {
         return movieRepository.findById(id)
                 .map(movieMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException("Film non trouvé"));
+                .orElseThrow(() -> new EntityNotFoundException("Film not found"));
     }
 
     /**
@@ -69,7 +69,7 @@ public class MovieServiceImpl implements MovieService {
      */
     @Override
     public MovieDto updateMovie(int id, MovieDto movieDto) {
-        if (!movieRepository.existsById(id)) throw new EntityNotFoundException("Inexistant");
+        if (!movieRepository.existsById(id)) throw new EntityNotFoundException("Absent.");
         var movie = movieMapper.toEntity(movieDto);
         movie.setId(id);
         return movieMapper.toDto(movieRepository.save(movie));

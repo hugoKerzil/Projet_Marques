@@ -34,7 +34,7 @@ public class AuthenServiceImpl implements AuthenService{
     @Override
     public AuthenDto register(AuthenDto authenDto) {
         if (authenRepository.existsByPseudo(authenDto.getPseudo())) {
-            throw new RuntimeException("Ce pseudo est déjà utilisé");
+            throw new RuntimeException("This username is already in use.");
         }
         Authen authen = authenMapper.toEntity(authenDto);
         return authenMapper.toDto(authenRepository.save(authen));
@@ -47,10 +47,10 @@ public class AuthenServiceImpl implements AuthenService{
     @Override
     public AuthenDto login(String pseudo, String password) {
         Authen authen = authenRepository.findByPseudo(pseudo)
-                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+                .orElseThrow(() -> new RuntimeException("User not found."));
 
         if (!authen.getPassword().equals(password)) {
-            throw new RuntimeException("Mot de passe incorrect");
+            throw new RuntimeException("Incorrect password.");
         }
 
         return authenMapper.toDto(authen);
