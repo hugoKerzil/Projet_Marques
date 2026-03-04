@@ -94,7 +94,7 @@ components:
           type: integer
         movieId:
           type: integer
-        nom:
+        url:
           type: string
         description:
           type: string

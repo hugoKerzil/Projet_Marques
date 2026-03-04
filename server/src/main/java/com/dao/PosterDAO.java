@@ -21,6 +21,10 @@ public class PosterDAO {
      * <p>Method for saving a poster in the MongoDB database</p>
      */
     public void save(Poster poster) {
+        if (poster.getId() == null) {
+            poster.setId(System.currentTimeMillis());
+        }
+
         Document doc = new Document("id", poster.getId())
                 .append("movieId", poster.getMovieId())
                 .append("url", poster.getUrl())
