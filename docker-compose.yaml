@@ -9,6 +9,8 @@
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   # Base de données MongoDB (postersdb)
   postersdb:
@@ -18,4 +20,4 @@
     ports:
       - "27017:27017"
     volumes:
-      - ./data_mongo:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
