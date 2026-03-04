@@ -40,9 +40,9 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         Payment paiement = new Payment();
-        paiement.setMontant(request.getAmount());
+        paiement.setAmount(request.getAmount());
         paiement.setType("CB");
-        paiement.setStatut("VALIDÉ");
+        paiement.setStatus("VALIDÉ");
 
         // On doit attendre l'api "Location" pour lier la location_id reçue dans le DTO
         // paiement.setLocation(locationRepository.findById(request.getReservationId()).get());
