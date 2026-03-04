@@ -2,7 +2,7 @@ package com.controllers;
 
 import com.dtos.PaymentDto;
 import com.services.PaymentService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

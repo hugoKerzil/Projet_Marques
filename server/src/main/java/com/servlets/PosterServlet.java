@@ -9,7 +9,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/posters/*", "/movies/*"})
+@WebServlet(urlPatterns = {"/posters", "/posters/*", "/movies/*"})
 public class PosterServlet extends HttpServlet {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final PosterDAO posterDAO = new PosterDAO();
