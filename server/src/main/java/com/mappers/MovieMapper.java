@@ -18,13 +18,13 @@ public class MovieMapper {
         MovieDto movieDto = new MovieDto();
         movieDto.setId(movie.getId());
         movieDto.setTitle(movie.getTitle());
-        movieDto.setAnneeRealisation(movie.getAnneeRealisation());
-        movieDto.setRealisateur(movie.getRealisateur());
-        movieDto.setActeurs(movie.getActeurs());
+        movieDto.setYearCompletion(movie.getYearCompletion());
+        movieDto.setDirector(movie.getDirector());
+        movieDto.setActors(movie.getActors());
         movieDto.setGenres(movie.getGenres());
-        movieDto.setAgeMinimum(movie.getAgeMinimum());
-        movieDto.setAffiches(movie.getAffiches());
-        movieDto.setEstOuvertALaLocation(movie.isEstOuvertALaLocation());
+        movieDto.setMinimumAge(movie.getMinimumAge());
+        movieDto.setPosters(movie.getPosters());
+        movieDto.setIsOpenForRent(movie.isOpenForRent());
         return movieDto;
     }
 
