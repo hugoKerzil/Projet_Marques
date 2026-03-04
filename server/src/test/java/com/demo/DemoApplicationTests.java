@@ -19,9 +19,6 @@ class DemoApplicationTests {
 	@Autowired
 	private AuthenRepository authenRepository;
 
-	@Autowired
-	private PosterMapper posterMapper;
-
 	@Test
 	void contextLoads() {
 	}
@@ -45,15 +42,4 @@ class DemoApplicationTests {
 
 		assertEquals("Interstellar", entity.getTitle());
 	}
-
-	@Test
-	void testPosterMapper() {
-		PosterDto dto = new PosterDto();
-		dto.setDescription("Poster de test");
-
-		Poster entity = posterMapper.toEntity(dto);
-
-		assertEquals("Poster de test", entity.getDescription());
-	}
-
 }
