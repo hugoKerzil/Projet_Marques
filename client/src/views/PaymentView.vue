@@ -5,27 +5,29 @@ import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
 
+const GATEWAY_URL = "http://localhost:11040";
 const movieId = route.query.movieId as string;
-const amount = ref(9.99);
-
-const paymentData = ref({
-  cardNumber: '',
-  expiryDate: '',
-  cvv: '',
-  amount: amount.value,
-  reservationId: parseInt(movieId) || 0
-});
+const defaultAmount = 9.99;
 
 const isSubmitting = ref(false);
 const message = ref('');
 const isError = ref(false);
 
+const paymentData = ref({
+  cardNumber: '',
+  expiryDate: '',
+  cvv: '',
+  amount: defaultAmount,
+  reservationId: parseInt(movieId) || 0
+});
+
 const processPayment = async () => {
   isSubmitting.value = true;
   message.value = 'Traitement du paiement...';
+  isError.value = false;
 
   try {
-    const response = await fetch('http://localhost:8080/payments/validate', {
+    const response = await fetch(`${GATEWAY_URL}/payments/validate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(paymentData.value)
@@ -51,42 +53,59 @@ const processPayment = async () => {
 </script>
 
 <template>
-  <div class="payment-container">
+  <div class="payment-view">
     <button @click="router.back()" class="back-btn">← Retour</button>
 
-    <h1>Finaliser la location</h1>
-    <p>Montant à régler : <strong>{{ paymentData.amount }} €</strong></p>
+    <div class="payment-card">
+      <h1>Finaliser la location</h1>
+      <p class="summary">Montant à régler : <strong>{{ paymentData.amount }} €</strong></p>
 
-    <form @submit.prevent="processPayment" class="payment-form">
-      <div class="form-group">
-        <label>Numéro de carte</label>
-        <input v-model="paymentData.cardNumber" type="text" placeholder="1234 5678 9101 1121" required>
-      </div>
-
-      <div class="row">
+      <form @submit.prevent="processPayment" class="payment-form">
         <div class="form-group">
-          <label>Date d'expiration</label>
-          <input v-model="paymentData.expiryDate" type="text" placeholder="MM/YY" required>
+          <label>Numéro de carte</label>
+          <input
+            v-model="paymentData.cardNumber"
+            type="text"
+            placeholder="1234 5678 9101 1121"
+            required
+          />
         </div>
-        <div class="form-group">
-          <label>CVV</label>
-          <input v-model="paymentData.cvv" type="text" placeholder="123" required>
+
+        <div class="row">
+          <div class="form-group">
+            <label>Date d'expiration</label>
+            <input
+              v-model="paymentData.expiryDate"
+              type="text"
+              placeholder="MM/YY"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label>CVV</label>
+            <input
+              v-model="paymentData.cvv"
+              type="text"
+              placeholder="123"
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <button type="submit" :disabled="isSubmitting" class="pay-btn">
-        {{ isSubmitting ? 'Validation...' : 'Payer maintenant' }}
-      </button>
+        <button type="submit" :disabled="isSubmitting" class="pay-btn">
+          {{ isSubmitting ? 'Validation en cours...' : 'Payer maintenant' }}
+        </button>
 
-      <p v-if="message" :class="{ 'error-msg': isError, 'success-msg': !isError }">
-        {{ message }}
-      </p>
-    </form>
+        <p v-if="message" :class="{ 'error-msg': isError, 'success-msg': !isError }">
+          {{ message }}
+        </p>
+      </form>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.payment-container { max-width: 400px; margin: 2rem auto; padding: 1rem; border: 1px solid #ccc; border-radius: 8px; }
+.payment-view { max-width: 400px; margin: 2rem auto; padding: 1rem; border: 1px solid #ccc; border-radius: 8px; }
 .payment-form { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
 .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
