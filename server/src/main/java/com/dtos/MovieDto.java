@@ -27,5 +27,5 @@ public class MovieDto {
 
     private List<String> posters;
 
-    private boolean isOpenForRent;
+    private boolean openForRent;
 }

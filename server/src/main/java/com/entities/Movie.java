@@ -30,5 +30,5 @@ public class Movie {
     @ElementCollection
     private List<String> posters;
 
-    private boolean isOpenForRent;
+    private boolean openForRent;
 }

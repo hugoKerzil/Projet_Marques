@@ -24,7 +24,7 @@ public class MovieMapper {
         movieDto.setGenres(movie.getGenres());
         movieDto.setMinimumAge(movie.getMinimumAge());
         movieDto.setPosters(movie.getPosters());
-        movieDto.setIsOpenForRent(movie.isOpenForRent());
+        movieDto.setOpenForRent(movie.isOpenForRent());
         return movieDto;
     }
 
@@ -42,13 +42,13 @@ public class MovieMapper {
             movie.setId(movieDto.getId());
         }
         movie.setTitle(movieDto.getTitle());
-        movie.setAnneeRealisation(movieDto.getAnneeRealisation());
-        movie.setRealisateur(movieDto.getRealisateur());
-        movie.setActeurs(movieDto.getActeurs());
+        movie.setYearCompletion(movieDto.getYearCompletion());
+        movie.setDirector(movieDto.getDirector());
+        movie.setActors(movieDto.getActors());
         movie.setGenres(movieDto.getGenres());
-        movie.setAgeMinimum(movieDto.getAgeMinimum());
-        movie.setAffiches(movieDto.getAffiches());
-        movie.setEstOuvertALaLocation(movieDto.isEstOuvertALaLocation());
+        movie.setMinimumAge(movieDto.getMinimumAge());
+        movie.setPosters(movieDto.getPosters());
+        movie.setOpenForRent(movieDto.isOpenForRent());
         return movie;
     }
 

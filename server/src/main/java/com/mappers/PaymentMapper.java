@@ -15,7 +15,7 @@ public class PaymentMapper {
         if (paiement == null) return null;
 
         PaymentDto dto = new PaymentDto();
-        dto.setAmount(paiement.getMontant());
+        dto.setAmount(paiement.getAmount());
 
         return dto;
     }
@@ -28,9 +28,9 @@ public class PaymentMapper {
         if (dto == null) return null;
 
         Payment paiement = new Payment();
-        paiement.setMontant(dto.getAmount());
+        paiement.setAmount(dto.getAmount());
         paiement.setType("CB");
-        paiement.setStatut("EN_ATTENTE");
+        paiement.setStatus("EN_ATTENTE");
 
         return paiement;
     }
