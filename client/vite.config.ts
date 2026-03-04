@@ -18,10 +18,50 @@ export default defineConfig({
 
   server: {
     proxy: {
-      '/api': {
-        target: 'http://localhost:8080',
+      '/api/movies': {
+        target: 'http://info-tpsi.univ-brest.fr:11041',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        rewrite: (path) => path.replace(/^\/api\/movies/, '')
+      },
+      '/api/authentifications': {
+        target: 'http://info-tpsi.univ-brest.fr:11040',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/authentifications/, '')
+      },
+      '/api/posters': {
+        target: 'http://info-tpsi.univ-brest.fr:11043',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/posters/, '')
+      },
+      '/api/payments': {
+        target: 'http://info-tpsi.univ-brest.fr:11044',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/payments/, '')
+      },
+      '/api/reservations': {
+        target: 'http://info-tpsi.univ-brest.fr:11082',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/reservations/, '')
+      },
+      '/api/users': {
+        target: 'http://info-tpsi.univ-brest.fr:11081',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/users/, '')
+      },
+      '/api/scrappings': {
+        target: 'http://info-tpsi.univ-brest.fr:11063',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/scrappings/, '')
+      },
+      '/api/reviews': {
+        target: 'http://info-tpsi.univ-brest.fr:11083',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/reviews/, '')
+      },
+      '/api/artists': {
+        target: 'http://info-tpsi.univ-brest.fr:11065',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/artists/, '')
       }
 
       '/reservation': {

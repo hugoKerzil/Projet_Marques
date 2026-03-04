@@ -49,3 +49,5 @@ __screenshots__/
 build/
 *.jar
 .gradle/
+data_mongo/
+data_mysql/

@@ -2,7 +2,7 @@
 import { ref, onMounted, computed } from 'vue';
 
 const movies = ref<any[]>([]);
-const GATEWAY_URL = "http://localhost:11040";
+const GATEWAY_URL = "http://movie-api:8081";
 
 onMounted(async () => {
   try {

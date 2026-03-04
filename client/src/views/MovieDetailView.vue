@@ -8,7 +8,7 @@ const movieId = route.params.id
 
 const movie = ref<any>(null);
 
-const GATEWAY_URL = "http://localhost:11040";
+const GATEWAY_URL = "http://movie-api:8081";
 
 onMounted(async () => {
   try {
