@@ -4,9 +4,9 @@ import com.dtos.PaymentDto;
 
 public interface PaymentService {
     /**
-     * Simule le traitement d'un paiement
-     * @param request les infos de la carte et le montant
-     * @return true si le paiement est accepté, false sinon
+     * Simulates payment processing
+     * @param request card details and amount
+     * @return true if payment is accepted, false otherwise
      */
     boolean process(PaymentDto request);
 }
