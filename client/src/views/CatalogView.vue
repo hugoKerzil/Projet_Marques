@@ -50,12 +50,23 @@ const searchCriteria = ref({
 
 const filteredMovies = computed(() => {
   return movies.value.filter(movie => {
-    return movie.title.toLowerCase().includes(searchCriteria.value.title.toLowerCase()) &&
-      movie.director.toLowerCase().includes(searchCriteria.value.director.toLowerCase()) &&
-      (searchCriteria.value.genre === '' || movie.genres.some((g: string) => g.toLowerCase().includes(searchCriteria.value.genre.toLowerCase()))) &&
-      (searchCriteria.value.actor === '' || movie.actors.some((a: string) => a.toLowerCase().includes(searchCriteria.value.actor.toLowerCase())))
-  })
-})
+    const title = (movie.title || "").toLowerCase();
+    const director = (movie.director || "").toLowerCase();
+    const searchTitle = (searchCriteria.value.title || "").toLowerCase();
+    const searchDirector = (searchCriteria.value.director || "").toLowerCase();
+    const matchesTitle = title.includes(searchTitle);
+    const matchesDirector = director.includes(searchDirector);
+    const matchesGenre = searchCriteria.value.genre === '' ||
+      (movie.genres && movie.genres.some((g: string) =>
+        (g || "").toLowerCase().includes(searchCriteria.value.genre.toLowerCase())
+      ));
+    const matchesActor = searchCriteria.value.actor === '' ||
+      (movie.actors && movie.actors.some((a: string) =>
+        (a || "").toLowerCase().includes(searchCriteria.value.actor.toLowerCase())
+      ));
+    return matchesTitle && matchesDirector && matchesGenre && matchesActor;
+  });
+});
 
 const submitMovie = async () => {
   const payload = {
