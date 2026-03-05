@@ -5,8 +5,9 @@ import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
 
-const GATEWAY_URL = "http://localhost:11040";
-const movieId = route.query.movieId as string;
+const GATEWAY_URL = "http://info-tpsi.univ-brest.fr:11040";
+
+const movieId = route.params.id as string;
 const defaultAmount = 9.99;
 
 const isSubmitting = ref(false);
