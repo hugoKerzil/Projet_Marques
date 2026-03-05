@@ -10,7 +10,7 @@ const password = ref('');
 const errorMessage = ref('');
 
 // URL de ta Gateway sur le serveur UBO
-const GATEWAY_URL = "http://movie-api:8081";
+const GATEWAY_URL = "http://info-tpsi.univ-brest.fr:11040";
 
 const toggleMode = () => {
   isLoginMode.value = !isLoginMode.value;
