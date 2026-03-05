@@ -4,7 +4,33 @@ import { ref, onMounted, computed } from 'vue';
 const movies = ref<any[]>([]);
 const GATEWAY_URL = "http://info-tpsi.univ-brest.fr:11040";
 
+const isAdmin = ref(false);
+const showAddForm = ref(false);
+
+const newMovie = ref({
+  title: '',
+  yearCompletion: '',
+  director: '',
+  minimumAge: 0,
+  openForRent: true,
+  actorsStr: '',
+  genresStr: '',
+  postersStr: ''
+});
+
 onMounted(async () => {
+  const userStr = localStorage.getItem('user');
+  if (userStr) {
+    const user = JSON.parse(userStr);
+    if (user.role === 'ADMIN') {
+      isAdmin.value = true;
+    }
+  }
+
+  fetchMovies();
+})
+
+const fetchMovies = async () => {
   try {
     const response = await fetch(`${GATEWAY_URL}/movies`);
     if (!response.ok) throw new Error(`Erreur serveur: ${response.status}`);
@@ -13,7 +39,7 @@ onMounted(async () => {
   } catch (error) {
     console.error("Erreur de connexion :", error);
   }
-})
+};
 
 const searchCriteria = ref({
   title: '',
@@ -30,12 +56,79 @@ const filteredMovies = computed(() => {
       (searchCriteria.value.actor === '' || movie.actors.some((a: string) => a.toLowerCase().includes(searchCriteria.value.actor.toLowerCase())))
   })
 })
+
+const submitMovie = async () => {
+  const payload = {
+    title: newMovie.value.title,
+    yearCompletion: newMovie.value.yearCompletion,
+    director: newMovie.value.director,
+    minimumAge: newMovie.value.minimumAge,
+    openForRent: newMovie.value.openForRent,
+    actors: newMovie.value.actorsStr.split(',').map(s => s.trim()).filter(s => s !== ''),
+    genres: newMovie.value.genresStr.split(',').map(s => s.trim()).filter(s => s !== ''),
+    posters: newMovie.value.postersStr.split(',').map(s => s.trim()).filter(s => s !== '')
+  };
+
+  try {
+    const response = await fetch(`${GATEWAY_URL}/movies`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) throw new Error("Erreur lors de l'ajout du film");
+
+    await fetchMovies();
+    showAddForm.value = false;
+
+    newMovie.value = { title: '', yearCompletion: '', director: '', minimumAge: 0, openForRent: true, actorsStr: '', genresStr: '', postersStr: '' };
+
+  } catch (error) {
+    console.error("Erreur :", error);
+    alert("Impossible d'ajouter le film.");
+  }
+};
 </script>
 
 <template>
   <div class="catalog">
-    <h1>Catalogue VOD</h1>
-    ev
+    <div class="header-section">
+      <h1>Catalogue VOD</h1>
+      <button v-if="isAdmin" class="admin-add-btn" @click="showAddForm = !showAddForm">
+        {{ showAddForm ? 'Fermer le formulaire' : '+ Ajouter un film' }}
+      </button>
+    </div>
+
+    <div v-if="showAddForm && isAdmin" class="admin-form-container">
+      <h3>Ajouter un nouveau film (Mode Admin)</h3>
+      <form @submit.prevent="submitMovie" class="admin-form">
+        <div class="form-row">
+          <input v-model="newMovie.title" placeholder="Titre du film" required />
+          <input v-model="newMovie.director" placeholder="Réalisateur" required />
+        </div>
+        <div class="form-row">
+          <input v-model="newMovie.yearCompletion" placeholder="Année (ex: 2010)" required />
+          <input v-model.number="newMovie.minimumAge" type="number" placeholder="Âge minimum" required />
+        </div>
+        <div class="form-row">
+          <input v-model="newMovie.genresStr" placeholder="Genres (séparés par des virgules)" />
+          <input v-model="newMovie.actorsStr" placeholder="Acteurs (séparés par des virgules)" />
+        </div>
+        <div class="form-row">
+          <input v-model="newMovie.postersStr" placeholder="URL de l'affiche" style="width: 100%;" />
+        </div>
+        <div class="form-row checkbox-row">
+          <label>
+            <input type="checkbox" v-model="newMovie.openForRent" />
+            Disponible à la location
+          </label>
+        </div>
+        <button type="submit" class="submit-btn">Enregistrer le film</button>
+      </form>
+    </div>
+
     <div class="filter-bar">
       <div class="filter-group">
         <label>Titre</label>
@@ -57,7 +150,6 @@ const filteredMovies = computed(() => {
 
     <div class="movie-grid">
       <div v-if="movies.length === 0" class="loading">Chargement des films...</div>
-
       <div v-else-if="filteredMovies.length === 0" class="no-results">
         Aucun film ne correspond à vos critères.
       </div>
@@ -84,132 +176,26 @@ const filteredMovies = computed(() => {
 </template>
 
 <style scoped>
-.catalog {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.movie-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 30px;
-  margin-top: 20px;
-}
-
-.movie-card {
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-.movie-card:hover {
-  transform: translateY(-5px);
-}
-
-.poster-container {
-  width: 100%;
-  height: 320px;
-  background-color: #2c3e50;
-  overflow: hidden;
-}
-
-.movie-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.no-poster {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 0.9rem;
-}
-
-.movie-info {
-  padding: 15px;
-  text-align: left;
-}
-
-.movie-info h3 {
-  margin: 0 0 10px 0;
-  font-size: 1.1rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.meta {
-  color: #666;
-  font-size: 0.85rem;
-  margin-bottom: 15px;
-}
-
-.detail-btn {
-  width: 100%;
-  padding: 10px;
-  background-color: #42b883;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.detail-btn:hover {
-  background-color: #33a06f;
-}
-
-.filter-bar {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  background: #f8f9fa;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 30px;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.filter-group {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.filter-group label {
-  font-size: 0.8rem;
-  font-weight: bold;
-  color: #2c3e50;
-  text-transform: uppercase;
-}
-
-.filter-group input {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 0.9rem;
-}
-
-.filter-group input:focus {
-  outline: none;
-  border-color: #42b883;
-  box-shadow: 0 0 0 2px rgba(66, 184, 131, 0.2);
-}
-
-.no-results {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 40px;
-  color: #666;
-  font-style: italic;
-}
+.catalog { padding: 20px; max-width: 1200px; margin: 0 auto; }
+.header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.admin-add-btn { background-color: #2c3e50; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+.admin-form-container { background-color: #e8f4f8; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #bce0ee; }
+.admin-form { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
+.form-row { display: flex; gap: 15px; }
+.form-row input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+.checkbox-row { align-items: center; }
+.submit-btn { background-color: #42b883; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+.movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 30px; margin-top: 20px; }
+.movie-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+.poster-container { width: 100%; height: 320px; background-color: #2c3e50; overflow: hidden; }
+.movie-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.no-poster { height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.9rem; }
+.movie-info { padding: 15px; text-align: left; }
+.movie-info h3 { margin: 0 0 10px 0; font-size: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.meta { color: #666; font-size: 0.85rem; margin-bottom: 15px; }
+.detail-btn { width: 100%; padding: 10px; background-color: #42b883; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+.filter-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 30px; }
+.filter-group { display: flex; flex-direction: column; gap: 5px; }
+.filter-group label { font-size: 0.8rem; font-weight: bold; color: #2c3e50; text-transform: uppercase; }
+.filter-group input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; }
 </style>
