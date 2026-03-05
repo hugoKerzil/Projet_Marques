@@ -63,11 +63,6 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/artists/, '')
       }
-
-      '/reservation': {
-        target: 'http://info-tpsi.univ-brest.fr:11082',
-        changeOrigin: true
-      }
     }
   }
 })
