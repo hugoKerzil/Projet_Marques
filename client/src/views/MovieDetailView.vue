@@ -10,8 +10,10 @@ const movie = ref<any>(null);
 const GATEWAY_URL = "http://info-tpsi.univ-brest.fr:11040";
 
 const isAdmin = ref(false);
+const directorDetails = ref<any>(null);
 
 onMounted(async () => {
+  // 1. Vérification des droits Admin
   const userStr = localStorage.getItem('user');
   if (userStr) {
     const user = JSON.parse(userStr);
@@ -21,14 +23,21 @@ onMounted(async () => {
   }
 
   try {
-    const response = await fetch(`${GATEWAY_URL}/movies/${movieId}`);
-    if (!response.ok) throw new Error('Film non trouvé');
-    const data = await response.json();
-    movie.value = data;
+    // 2. Récupération du film
+    const movieRes = await fetch(`${GATEWAY_URL}/movies/${movieId}`);
+    movie.value = await movieRes.json();
+
+    // 3. Appel à l'API externe Artists via la Gateway
+    if (movie.value.director) {
+      const artistRes = await fetch(`${GATEWAY_URL}/api/artists/search?name=${encodeURIComponent(movie.value.director)}`);
+      if (artistRes.ok) {
+        directorDetails.value = await artistRes.json();
+      }
+    }
   } catch (error) {
-    console.error("Erreur détaillée :", error);
+    console.error("Erreur :", error);
   }
-})
+});
 
 const deleteMovie = async () => {
   if (!confirm("Attention : Êtes-vous sûr de vouloir supprimer définitivement ce film du catalogue ?")) {
@@ -70,14 +79,20 @@ const deleteMovie = async () => {
         <div class="tags">
           <span class="tag">{{ movie.yearCompletion }}</span>
           <span class="tag" v-for="genre in movie.genres" :key="genre">{{ genre }}</span>
-          <span class="tag age">{{ movie.minimumAge }}+</span>
+          <span class="tag age" v-if="movie.minimumAge">{{ movie.minimumAge }}+</span>
         </div>
 
         <div class="crew-details">
           <div class="crew-item">
             <span class="label">Réalisateur</span>
             <span class="value">{{ movie.director }}</span>
+
+            <div v-if="directorDetails" class="artist-card">
+              <p class="artist-bio"><strong>Bio :</strong> {{ directorDetails.biography || 'Aucune biographie disponible.' }}</p>
+              <p class="artist-info">Nationalité : {{ directorDetails.nationality }}</p>
+            </div>
           </div>
+
           <div class="crew-item">
             <span class="label">Casting principal</span>
             <span class="value">{{ movie.actors?.join(', ') || 'Non spécifié' }}</span>
@@ -96,6 +111,10 @@ const deleteMovie = async () => {
         </div>
       </div>
     </div>
+  </div>
+
+  <div v-else class="loading">
+    Chargement des détails du film...
   </div>
 </template>
 
@@ -128,4 +147,15 @@ const deleteMovie = async () => {
 .btn-rent { width: 100%; max-width: 350px; background: #3b82f6; color: white; border: none; padding: 16px 24px; border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
 .btn-rent:hover:not(.disabled) { background: #2563eb; transform: translateY(-2px); }
 .btn-rent.disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; color: #64748b; }
+
+.artist-card {
+  margin-top: 10px;
+  padding: 12px;
+  background-color: #f8fafc;
+  border-left: 4px solid #3b82f6;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.artist-bio { color: #475569; margin-bottom: 5px; line-height: 1.4; }
+.artist-info { color: #64748b; font-size: 0.8rem; font-style: italic; }
 </style>

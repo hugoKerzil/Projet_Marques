@@ -2,21 +2,65 @@ spring:
   cloud:
     gateway:
       default-filters:
+        # Supprime les en-têtes pour éviter les doublons si les services distants en envoient aussi
+        - RemoveResponseHeader=Access-Control-Allow-Origin
+        - RemoveResponseHeader=Access-Control-Allow-Credentials
         - name: DedupeResponseHeader
           args:
             strategy: RETAIN_FIRST
             name: Access-Control-Allow-Origin Access-Control-Allow-Credentials
+
       globalcors:
         add-to-chain: true
         cors-configurations:
           '[/**]':
-            allowedOriginPatterns: "*"
-            allowedMethods: "*"
+            allowedOriginPatterns:
+              - "http://localhost:5173"
+              - "http://info-tpsi.univ-brest.fr:11044"
+            allowedMethods:
+              - "GET"
+              - "POST"
+              - "PUT"
+              - "DELETE"
+              - "OPTIONS"
             allowedHeaders: "*"
             allowCredentials: true
 
       routes:
+        # 1. VOTRE SERVICE (MOVIE API)
         - id: movie-service-route
-          uri: http://movie-api:8081
+          uri: http://movie-api:8081/
           predicates:
-            - Path=/movies/**, /posters/**, /auth/**
+            - Path=/movies/**, /posters/**, /auth/**, /payments/**
+
+        # 2. SERVICE ARTISTS
+        - id: artists-service-route
+          uri: http://info-tpsi.univ-brest.fr:11122/
+          predicates:
+            - Path=/api/artists/**
+          filters:
+            - RewritePath=/api/artists/(?<segment>.*), /${segment}
+
+        # 3. SERVICE REVIEWS
+        - id: reviews-service-route
+          uri: http://info-tpsi.univ-brest.fr:11083/
+          predicates:
+            - Path=/api/reviews/**
+          filters:
+            - RewritePath=/api/reviews/(?<segment>.*), /${segment}
+
+        # 4. SERVICE USERS
+        - id: users-service-route
+          uri: http://info-tpsi.univ-brest.fr:11102/
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - RewritePath=/api/users/(?<segment>.*), /${segment}
+
+        # 5. SERVICE SCRAPPINGS
+        - id: scrappings-service-route
+          uri: http://info-tpsi.univ-brest.fr:10062/
+          predicates:
+            - Path=/api/scrappings/**
+          filters:
+            - RewritePath=/api/scrappings/(?<segment>.*), /${segment}
