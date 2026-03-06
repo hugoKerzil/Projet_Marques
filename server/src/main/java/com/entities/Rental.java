@@ -11,5 +11,4 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //rien pour l'instant (c'est ici pour que le projet se lance)
 }

@@ -26,13 +26,11 @@ public class PosterServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID manquant");
             }
             else if (pathInfo.startsWith("/movie/")) {
-                // Route: GET /posters/movie/{movieId}
                 Long movieId = Long.parseLong(pathInfo.substring(7));
                 List<Poster> posters = posterDAO.findByMovieId(movieId);
                 response.getWriter().write(objectMapper.writeValueAsString(posters));
             }
             else {
-                // Route: GET /posters/{id}
                 Long id = Long.parseLong(pathInfo.substring(1));
                 Poster poster = posterDAO.findById(id);
                 if (poster != null) {

@@ -40,7 +40,6 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-// États
 const userPseudo = ref('');
 const userId = ref<number | null>(null);
 const activeRentals = ref<any[]>([]);

@@ -56,7 +56,7 @@
   background-color: #f1f5f9;
 }
 .nav-links a.router-link-exact-active {
-  color: #3b82f6; /* Bleu moderne */
+  color: #3b82f6;
 }
 .nav-links a.btn-login {
   background-color: #3b82f6;

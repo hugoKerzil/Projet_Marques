@@ -9,7 +9,6 @@ const pseudo = ref('');
 const password = ref('');
 const errorMessage = ref('');
 
-// URL de ta Gateway sur le serveur UBO
 const GATEWAY_URL = "http://info-tpsi.univ-brest.fr:11040";
 
 const toggleMode = () => {
@@ -37,7 +36,6 @@ const handleSubmit = async () => {
     });
 
     if (!response.ok) {
-      // On essaye de récupérer le message d'erreur du backend
       const errorText = await response.text();
       throw new Error(errorText || 'Identifiants incorrects ou erreur serveur');
     }
@@ -45,7 +43,6 @@ const handleSubmit = async () => {
     const data = await response.json();
     console.log("Succès :", data);
 
-    // Stockage de l'utilisateur (on peut stocker le pseudo ou le token)
     localStorage.setItem('user', JSON.stringify(data));
 
     router.push('/catalog');

@@ -17,7 +17,6 @@ public class MongoDBConfig {
         return mongoClient.getDatabase(DATABASE_NAME);
     }
 
-    // Utile pour fermer la connexion proprement à l'arrêt du serveur
     public static void close() {
         if (mongoClient != null) {
             mongoClient.close();

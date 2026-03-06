@@ -1,10 +1,7 @@
-// Sélection de la base de données
 db = db.getSiblingDB('postersdb');
 
-// Création explicite de la collection
 db.createCollection('poster');
 
-// Insertion de données de test correspondant à Poster.java
 db.poster.insertMany([
     {
         _class: "com.entities.Poster",

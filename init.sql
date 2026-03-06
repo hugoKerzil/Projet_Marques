@@ -69,7 +69,6 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- -----------------------------------------------------
 -- Insertion des Comptes (Utilisateurs & Admins)
 -- -----------------------------------------------------
--- Note : Respecte la structure détectée dans vos fichiers
 INSERT INTO compte (pseudo, password, role) VALUES
                                                 ('admin', 'admin123', 'ADMIN'),
                                                 ('user1', 'user123', 'USER');
@@ -77,7 +76,6 @@ INSERT INTO compte (pseudo, password, role) VALUES
 -- -----------------------------------------------------
 -- Insertion des Films
 -- -----------------------------------------------------
--- Utilisation des colonnes exactes détectées par Hibernate
 INSERT INTO movie (id, title, year_completion, director, minimum_age, open_for_rent) VALUES
                                                                                          (1, 'Inception', '2010', 'Christopher Nolan', 12, TRUE),
                                                                                          (2, 'Interstellar', '2014', 'Christopher Nolan', 10, TRUE),
@@ -86,20 +84,17 @@ INSERT INTO movie (id, title, year_completion, director, minimum_age, open_for_r
 -- -----------------------------------------------------
 -- Insertion des Détails des Films (Tables de collection)
 -- -----------------------------------------------------
--- Acteurs
 INSERT INTO movie_actors (movie_id, actors) VALUES
                                                 (1, 'Leonardo DiCaprio'), (1, 'Elliot Page'), (1, 'Tom Hardy'),
                                                 (2, 'Matthew McConaughey'), (2, 'Anne Hathaway'),
                                                 (3, 'Christian Bale'), (3, 'Heath Ledger');
 
--- Genres
 INSERT INTO movie_genres (movie_id, genres) VALUES
                                                 (1, 'Sci-Fi'), (1, 'Action'),
                                                 (2, 'Sci-Fi'), (2, 'Drame'),
                                                 (3, 'Action'), (3, 'Crime');
 
--- Postiers (Liens vers les images)
--- Ajout basé sur la table créée par Hibernate dans vos logs
+-- Posters
 INSERT INTO movie_posters (movie_id, posters) VALUES
                                                   (1, 'https://static.wikia.nocookie.net/cinematheque/images/9/9f/Inception_-_Poster_%280%29.jpg/revision/latest?cb=20230412164019&path-prefix=fr'),
                                                   (2, 'https://fr.web.img6.acsta.net/pictures/14/09/24/12/08/158828.jpg'),
@@ -108,9 +103,7 @@ INSERT INTO movie_posters (movie_id, posters) VALUES
 -- -----------------------------------------------------
 -- Insertion des Locations et Paiements
 -- -----------------------------------------------------
--- On crée une location pour le film 1 liée à l'utilisateur 1 (si votre table le permet)
 INSERT INTO location (id) VALUES (1);
 
--- Le paiement lié à la location 1
 INSERT INTO paiement (type, status, amount, location_id) VALUES
     ('CB', 'VALIDE', 4.99, 1);

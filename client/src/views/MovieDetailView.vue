@@ -13,7 +13,6 @@ const isAdmin = ref(false);
 const directorDetails = ref<any>(null);
 
 onMounted(async () => {
-  // 1. Vérification des droits Admin
   const userStr = localStorage.getItem('user');
   if (userStr) {
     const user = JSON.parse(userStr);
@@ -23,11 +22,9 @@ onMounted(async () => {
   }
 
   try {
-    // 2. Récupération du film
     const movieRes = await fetch(`${GATEWAY_URL}/movies/${movieId}`);
     movie.value = await movieRes.json();
 
-    // 3. Appel à l'API externe Artists via la Gateway
     if (movie.value.director) {
       const artistRes = await fetch(`${GATEWAY_URL}/api/artists/search?name=${encodeURIComponent(movie.value.director)}`);
       if (artistRes.ok) {
